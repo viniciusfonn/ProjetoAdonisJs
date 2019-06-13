@@ -1,4 +1,8 @@
+/* eslint-disable no-unused-vars */
 'use strict'
+
+const Category = use('App/Models/Category')
+
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -41,7 +45,13 @@ class CategoryController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    const data = request.only(['name'])
+
+    const category = await Category.create(data)
+
+    return category
   }
+  
 
   /**
    * Display a single category.

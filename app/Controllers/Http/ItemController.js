@@ -1,6 +1,10 @@
 /* eslint-disable no-unused-vars */
 'use strict'
 
+const Item = use('App/Models/Item')
+
+
+
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -19,6 +23,9 @@ class ItemController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    const items = await Item.query().with('user').fetch()
+
+    return items
   }
 
   /**
@@ -30,8 +37,7 @@ class ItemController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
-  }
+ 
 
   /**
    * Create/save a new item.
@@ -41,7 +47,12 @@ class ItemController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store ({ request, auth }) {
+    const data = request.only(['user_id','name','quantity','category_id','value','tipo','file_id',])
+
+    const item = await Item.create({...data, user_id: auth.user.id})
+
+    return item
   }
 
   /**
@@ -53,7 +64,16 @@ class ItemController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async show ({ params}) {
+    const item = await Item.findOrFail(params.id)
+
+    await item.load('user')
+    await item.load('category')
+    await item.load('file')
+
+
+
+    return item
   }
 
   /**
@@ -65,8 +85,7 @@ class ItemController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
-  }
+ 
 
   /**
    * Update item details.
@@ -76,7 +95,15 @@ class ItemController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update ({ params, request}) {
+    const item = await Item.findOrFail(params.id)
+    const data = request.only(['user_id','name','quantity','category_id','value','tipo','file_id',])
+
+    item.merge(data)
+
+    await item.save()
+
+    return item
   }
 
   /**
@@ -87,7 +114,10 @@ class ItemController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy ({ params }) {
+    const item = await Item.findOrFail(params.id)
+
+    await item.delete()
   }
 }
 

@@ -12,7 +12,7 @@ class Item extends Model {
     }
 
     file () {
-        return this.belongsTo('App/Models/File')
+        return this.hasOne('App/Models/File')
     }
 }
 
