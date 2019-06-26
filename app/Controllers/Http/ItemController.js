@@ -22,8 +22,10 @@ class ItemController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const items = await Item.query().with('user').fetch()
+  async index ({ request}) {
+    const { page } = request.get()
+
+    const items = await Item.query().with('user').paginate(page)
 
     return items
   }

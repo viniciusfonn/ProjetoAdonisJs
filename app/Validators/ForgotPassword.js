@@ -1,16 +1,14 @@
 'use strict'
 const Antl = use('Antl')
 
-class User {
+class ForgotPassword {
   get validateAll() {
     return true
   }
-
   get rules () {
     return {
-      username: 'required|unique:users',
-      email: 'required|email|unique:users',
-      password: 'required|confirmed'
+      email: 'required|email',
+      redirect_url: 'required|url'
     }
   }
 
@@ -19,4 +17,4 @@ class User {
   }
 }
 
-module.exports = User
+module.exports = ForgotPassword
