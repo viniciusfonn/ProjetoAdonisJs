@@ -43,5 +43,12 @@
     "string": "The {{field}} should be a STRING.",
     "under": "The {{field}} should be under {{argument.0}}.",
     "unique": "The {{field}} has already been taken by someone else.",
-    "url": "The {{field}} should be a valid url."
+    "url": "The {{field}} should be a valid url.",
+    "name": "The {{field}} is required.",
+    "quantity": "The {{field}} is required.",
+    "value": "The {{field}} is required.",
+    "tipo": "The {{field}} is required.",
+    "id": "the {{field}} is required as a param"
+
+
   }

@@ -14,7 +14,15 @@ Route.get('/files/:id', 'FileController.show')
 
 Route.group(()=>{
     Route.post('/files', 'FileController.store')
+
+    Route.post('/purchase', 'PurchaseController.store').validator('Purchase')
     
-    Route.resource('items','ItemController').apiOnly()
+    Route.resource('items','ItemController').apiOnly().validator(new Map([
+        [['items.store'], ['StoreItem']],
+        [['items.update'], ['UpdateItem']],
+        [['items.index'], ['IndexItem']],
+        [['items.show'],['ShowItem']]
+      ]))
+
     Route.resource('categories','CategoryController').apiOnly()
 }).middleware(['auth'])

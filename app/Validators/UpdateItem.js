@@ -1,21 +1,22 @@
 'use strict'
 const Antl = use('Antl')
 
-class Session {
+class UpdateItem {
   get validateAll() {
     return true
   }
-
   get rules () {
     return {
-      email: 'required|email',
-      password: 'required'
+      name: 'required',
+      quantity: 'required|to_int',
+      value: 'required|to_int',
+      tipo: 'required'
+      
     }
   }
-
   get messages () {
     return Antl.list('validation')
   }
 }
 
-module.exports = Session
+module.exports = UpdateItem
